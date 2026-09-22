@@ -10,5 +10,6 @@ namespace SMTQC.API.Services
         Task<AutorizacionDto?> GetByIdAsync(int id);
         Task<AutorizacionDto> CreateAsync(AutorizacionCreateDto dto);
         Task<bool> DeleteAsync(int id);
+        Task<bool> ChangeEstadoAsync(int id, string nuevoEstado);
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using NetTopologySuite.Geometries;
 
@@ -17,6 +17,14 @@ public partial class Autorizacione
     public double Superficie { get; set; }
 
     public Geometry? Geometria { get; set; }
+
+    public string? NombrePredio { get; set; }
+
+    public string? Municipio { get; set; }
+
+    public string? TipoVegetacion { get; set; }
+
+    public string? Observaciones { get; set; }
 
     public string Estado { get; set; } = null!;
 

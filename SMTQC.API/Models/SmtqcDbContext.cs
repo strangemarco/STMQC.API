@@ -55,6 +55,8 @@ public partial class SmtqcDbContext : DbContext
                 .HasMaxLength(50)
                 .HasDefaultValue("Activo");
             entity.Property(e => e.Geometria).HasColumnType("geometry");
+            entity.Property(e => e.NombrePredio).HasMaxLength(150);
+            entity.Property(e => e.Municipio).HasMaxLength(100);
 
             entity.HasOne(d => d.Productor).WithMany(p => p.Autorizaciones)
                 .HasForeignKey(d => d.ProductorId)
@@ -83,6 +85,12 @@ public partial class SmtqcDbContext : DbContext
             entity.Property(e => e.Documento).HasMaxLength(20);
             entity.Property(e => e.Nombre).HasMaxLength(100);
             entity.Property(e => e.Telefono).HasMaxLength(20);
+            
+            entity.HasOne(d => d.Usuario)
+                .WithOne(p => p.Productor)
+                .HasForeignKey<Productore>(d => d.UsuarioId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK_Productores_Usuarios");
         });
 
         modelBuilder.Entity<Usuario>(entity =>

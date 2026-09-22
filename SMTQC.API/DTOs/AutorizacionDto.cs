@@ -11,6 +11,10 @@ namespace SMTQC.API.DTOs
         public double Superficie { get; set; }
         public string Estado { get; set; } = null!;
         public int ProductorId { get; set; }
+        public string? NombrePredio { get; set; }
+        public string? Municipio { get; set; }
+        public string? TipoVegetacion { get; set; }
+        public string? Observaciones { get; set; }
         public string? GeometriaWkt { get; set; } // Representación en texto de la geometría
     }
 
@@ -21,6 +25,10 @@ namespace SMTQC.API.DTOs
         public DateTime FechaFin { get; set; }
         public double Superficie { get; set; }
         public int ProductorId { get; set; }
+        public string? NombrePredio { get; set; }
+        public string? Municipio { get; set; }
+        public string? TipoVegetacion { get; set; }
+        public string? Observaciones { get; set; }
         public string? GeometriaWkt { get; set; } // WKT (Well-Known Text) ej: POLYGON((...))
     }
 }

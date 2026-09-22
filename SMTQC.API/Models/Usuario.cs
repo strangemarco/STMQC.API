@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace SMTQC.API.Models;
@@ -14,4 +14,6 @@ public partial class Usuario
     public string Rol { get; set; } = null!;
 
     public string PasswordHash { get; set; } = null!;
+
+    public virtual Productore? Productor { get; set; }
 }

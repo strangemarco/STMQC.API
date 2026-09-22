@@ -53,5 +53,15 @@ namespace SMTQC.API.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> ChangeEstadoAsync(int id, string nuevoEstado)
+        {
+            var autorizacion = await _context.Autorizaciones.FindAsync(id);
+            if (autorizacion == null) return false;
+
+            autorizacion.Estado = nuevoEstado;
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
