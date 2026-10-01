@@ -49,51 +49,59 @@ namespace SMTQC.API.Controllers
         [HttpPost("me")]
         public async Task<ActionResult<ProductorDto>> CreateOrUpdateProfile(CreateUpdateProductorDto dto)
         {
-            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+            try
             {
-                return Unauthorized("Usuario no identificado.");
-            }
-
-            var usuario = await _context.Usuarios.FindAsync(userId);
-            if (usuario == null)
-            {
-                return NotFound("Usuario no existe en el sistema.");
-            }
-
-            var productor = await _context.Productores.FirstOrDefaultAsync(p => p.UsuarioId == userId);
-
-            if (productor == null)
-            {
-                // Crear
-                productor = new Productore
+                var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
                 {
-                    UsuarioId = userId,
-                    Nombre = usuario.Nombre, // Tomamos el nombre de la cuenta
-                    Documento = dto.Documento,
-                    Comunidad = dto.Comunidad,
-                    Telefono = dto.Telefono
-                };
-                _context.Productores.Add(productor);
-            }
-            else
-            {
-                // Actualizar
-                productor.Documento = dto.Documento;
-                productor.Comunidad = dto.Comunidad;
-                productor.Telefono = dto.Telefono;
-            }
+                    return Unauthorized("Usuario no identificado.");
+                }
 
-            await _context.SaveChangesAsync();
+                var usuario = await _context.Usuarios.FindAsync(userId);
+                if (usuario == null)
+                {
+                    return NotFound("Usuario no existe en el sistema.");
+                }
 
-            return Ok(new ProductorDto
+                var productor = await _context.Productores.FirstOrDefaultAsync(p => p.UsuarioId == userId);
+
+                if (productor == null)
+                {
+                    // Crear
+                    productor = new Productore
+                    {
+                        UsuarioId = userId,
+                        Nombre = usuario.Nombre, // Tomamos el nombre de la cuenta
+                        Documento = dto.Documento,
+                        Comunidad = dto.Comunidad,
+                        Telefono = dto.Telefono
+                    };
+                    _context.Productores.Add(productor);
+                }
+                else
+                {
+                    // Actualizar
+                    productor.Documento = dto.Documento;
+                    productor.Comunidad = dto.Comunidad;
+                    productor.Telefono = dto.Telefono;
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new ProductorDto
+                {
+                    Id = productor.Id,
+                    Nombre = productor.Nombre,
+                    Documento = productor.Documento,
+                    Comunidad = productor.Comunidad,
+                    Telefono = productor.Telefono
+                });
+            }
+            catch (Exception ex)
             {
-                Id = productor.Id,
-                Nombre = productor.Nombre,
-                Documento = productor.Documento,
-                Comunidad = productor.Comunidad,
-                Telefono = productor.Telefono
-            });
+                var innerMsg = ex.InnerException != null ? ex.InnerException.Message : "";
+                return StatusCode(500, $"Error interno: {ex.Message} {innerMsg}");
+            }
         }
     }
 }

@@ -25,7 +25,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
 
-// Configurar OpenAPI
+// Configurar OpenAPI 
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<SMTQC.API.Models.SmtqcDbContext>(options =>

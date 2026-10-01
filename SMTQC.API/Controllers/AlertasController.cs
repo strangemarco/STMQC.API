@@ -42,5 +42,15 @@ namespace SMTQC.API.Controllers
 
             return Ok(alertas);
         }
+
+        [HttpPost("{id}/notificar")]
+        public async Task<IActionResult> EnviarNotificacion(int id)
+        {
+            // Simular un retardo de red
+            await Task.Delay(1500);
+            
+            // Simular respuesta con error de conexión (503 Service Unavailable o 504 Gateway Timeout)
+            return StatusCode(503, new { message = "Error de conexión con el servidor de notificaciones externo. Tiempo de espera agotado." });
+        }
     }
 }
